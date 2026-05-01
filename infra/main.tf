@@ -70,6 +70,8 @@ module "batch" {
   ecr_producer_image = var.ecr_producer_image
   ecr_producer_image_tag = var.ecr_producer_image_tag
   
+  secretsmanager_provider_db_host_arn = module.secrets-manager.secretsmanager_provider_db_host_arn
+  secretsmanager_provider_db_creds_arn = module.secrets-manager.secretsmanager_provider_db_creds_arn
   kms_key_id = module.kms.kms_key_id
   kms_key_arn = module.kms.kms_key_arn
   dynamodb_table_name = module.dynamodb.dynamodb_table_name

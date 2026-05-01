@@ -40,6 +40,15 @@ variable "ecr_producer_image_tag" {
     type = string
 }
 
+# SM
+variable "secretsmanager_provider_db_host_arn" {
+    type = string
+}
+
+variable "secretsmanager_provider_db_creds_arn" {
+    type = string
+}
+
 # KMS 
 variable "kms_key_id" {
   type        = string

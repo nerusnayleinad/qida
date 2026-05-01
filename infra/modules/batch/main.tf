@@ -22,11 +22,12 @@ resource "aws_iam_role_policy" "qida_batch_task_role_policy" {
       {
         Effect = "Allow"
         Action = [
-          # "secretsmanager:GetSecretValue",
+          "secretsmanager:GetSecretValue",
           "kms:Decrypt"
         ]
         Resource = [
-          # aws_secretsmanager_secret.provider_db.arn,
+          var.secretsmanager_provider_db_host_arn,
+          var.secretsmanager_provider_db_creds_arn,
           var.kms_key_arn
         ]
       },
@@ -129,10 +130,14 @@ resource "aws_batch_job_definition" "qida_jd_producer" {
     command = ["curl", "-L", "qida.es"]
     
     environment = [
-      #{ 
-      #  name = "SECRET_ARN", 
-      #  value = aws_secretsmanager_secret.provider_db.arn
-      #},
+      { 
+        name = "PROVIDER_DB_HOST", 
+        value = var.secretsmanager_provider_db_host_arn
+      },
+      { 
+        name = "PROVIDER_DB_CREDS", 
+        value = var.secretsmanager_provider_db_creds_arn
+      },
       { 
         name = "DYNAMODB_TABLE", 
         value = var.dynamodb_table_name
@@ -214,6 +219,7 @@ resource "aws_batch_job_queue" "batch_producer_job_queue" {
   }
 }
 
+
 # EventBridge IAM
 resource "aws_iam_role" "eventbridge_batch_role" {
   name = "eventbridge-batch-role"
@@ -251,8 +257,8 @@ resource "aws_iam_role_policy" "eventbridge_batch_role_policy" {
 # EventBridge rule and trigger
 resource "aws_cloudwatch_event_rule" "batch_trigger_rule" {
   name                = "batch-producer-trigger"
-  description         = "Trigger Batch producer job every hour"
-  schedule_expression = "cron(0 * * * ? *)"
+  description         = "Trigger Batch producer job every day at 02.00"
+  schedule_expression = "cron(0 2 * * ? *)"
 }
 
 resource "aws_cloudwatch_event_target" "batch" {
