@@ -168,11 +168,11 @@ resource "aws_batch_job_definition" "qida_jd_producer" {
     resourceRequirements = [
       {
         type  = "VCPU"
-        value = "0.25"
+        value = var.processor_batch_vcpu_request
       },
       {
         type  = "MEMORY"
-        value = "512"
+        value = var.processor_batch_memory_request
       }
     ]
 

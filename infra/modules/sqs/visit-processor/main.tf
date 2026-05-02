@@ -1,3 +1,28 @@
+# Policy allowing SNS to write on the queue
+resource "aws_sqs_queue_policy" "qida_visits_sqs_queue_policy" {
+  queue_url = aws_sqs_queue.qida_visits_sqs_queue.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "allow-sns-to-sqs-comm"
+        Effect = "Allow"
+        Principal = {
+          Service = "sns.amazonaws.com"
+        }
+        Action   = "sqs:SendMessage"
+        Resource = aws_sqs_queue.qida_visits_sqs_queue.arn
+        Condition = {
+          ArnEquals = {
+            "aws:SourceArn" = var.sns_topic_visits_arn
+          }
+        }
+      }
+    ]
+  })
+}
+
 # SQS Queues + DLQ
 resource "aws_sqs_queue" "qida_visits_sqs_queue" {
   name                       = "sqs-queue-visits-${var.name_suffix}"

@@ -54,6 +54,14 @@ variable "max_vcpus" {
   type = number
 }
 
+variable "processor_batch_vcpu_request" {
+  type = string
+}
+
+variable "processor_batch_memory_request" {
+  type = string
+}
+
 # ECS
 variable "visit_processor_fargate_cpu_request" {
   type = number

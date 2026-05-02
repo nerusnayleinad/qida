@@ -26,6 +26,8 @@ ecr_email_service_image_tag = "__EMAIL_SERVICE_IMAGE_TAG__"
 
 # Batch
 max_vcpus = 16
+processor_batch_vcpu_request ="0.25"
+processor_batch_memory_request = "512"
 ecr_producer_image = "producer"
 ecr_producer_image_tag = "__PRODUCER_IMAGE_TAG__"
 

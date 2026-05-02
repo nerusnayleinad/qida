@@ -28,6 +28,14 @@ variable "max_vcpus" {
     type = number
 }
 
+variable "processor_batch_vcpu_request" {
+  type = string
+}
+
+variable "processor_batch_memory_request" {
+  type = string
+}
+
 variable "ecr_repository_producer" {
     type = string
 }

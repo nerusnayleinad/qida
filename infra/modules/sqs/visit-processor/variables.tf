@@ -19,6 +19,11 @@ variable "kms_key_id" {
   type        = string
 }
 
+# SNS
+variable "sns_topic_visits_arn" {
+  type = string
+}
+
 # CloudWatch
 variable "qida_alert_email" {
   type = string

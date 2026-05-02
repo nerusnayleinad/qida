@@ -65,6 +65,8 @@ module "batch" {
   private_subnet_ids = module.vpc.private_subnet_ids
  
   max_vcpus = var.max_vcpus
+  processor_batch_vcpu_request = var.processor_batch_vcpu_request
+  processor_batch_memory_request = var.processor_batch_memory_request
   
   ecr_repository_producer = module.ecr.ecr_repository_producer
   ecr_producer_image = var.ecr_producer_image
@@ -197,7 +199,7 @@ module "sqs-vp" {
   region          = var.aws_region
   
   kms_key_id = module.kms.kms_key_id
-  
+  sns_topic_visits_arn = module.sns-vp.sns_topic_visits_arn
   qida_alert_email = var.qida_alert_email
   
   name_suffix = local.name_suffix
@@ -210,7 +212,7 @@ module "sqs-es" {
   region          = var.aws_region
   
   kms_key_id = module.kms.kms_key_id
-  
+  sns_topic_emails_arn = module.sns-es.sns_topic_emails_arn
   qida_alert_email = var.qida_alert_email
   
   name_suffix = local.name_suffix
