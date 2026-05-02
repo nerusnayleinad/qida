@@ -37,6 +37,26 @@ variable "ecs_cluster_name" {
   type  = string
 }
 
+variable "visit_processor_fargate_cpu_request" {
+  type = number
+}
+
+variable "visit_processor_fargate_memory_request" {
+  type = number
+}
+
+variable "django_api_url" {
+  type = string
+}
+
+variable "visit_processor_min_replicas" {
+  type = number
+}
+
+variable "visit_processor_max_replicas" {
+  type = number
+}
+
 variable "ecr_repository_visit_processor" {
   type = string
 }

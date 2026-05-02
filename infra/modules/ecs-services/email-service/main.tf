@@ -73,8 +73,8 @@ resource "aws_ecs_task_definition" "qida_email_service_ecs_td" {
   family                   = "email-service-${var.name_suffix}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = "256"
-  memory                   = "512"
+  cpu                      = var.email_service_fargate_cpu_request
+  memory                   = var.email_service_fargate_memory_request
   execution_role_arn       = aws_iam_role.qida_ecs_es_task_execution_role.arn
   task_role_arn            = aws_iam_role.qida_email_task_role.arn
 
@@ -109,7 +109,7 @@ resource "aws_ecs_service" "email_service" {
   name            = "email-service"
   cluster         = var.ecs_cluster_id
   task_definition = aws_ecs_task_definition.qida_email_service_ecs_td.arn
-  desired_count   = 1
+  desired_count   = var.email_service_min_replicas
   launch_type     = "FARGATE"
 
   network_configuration {
@@ -120,8 +120,8 @@ resource "aws_ecs_service" "email_service" {
 }
 
 resource "aws_appautoscaling_target" "ecs_email_service" {
-  max_capacity       = 4
-  min_capacity       = 1
+  max_capacity       = var.email_service_max_replicas
+  min_capacity       = var.email_service_min_replicas
   resource_id        = "service/${var.ecs_cluster_name}/email-service"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"

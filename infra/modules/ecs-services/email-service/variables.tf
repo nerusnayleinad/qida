@@ -37,6 +37,24 @@ variable "ecs_cluster_name" {
   type  = string
 }
 
+variable "email_service_fargate_cpu_request" {
+  type = number
+}
+
+variable "email_service_fargate_memory_request" {
+  type = number
+}
+
+variable "email_service_min_replicas" {
+  type = number
+}
+
+variable "email_service_max_replicas" {
+  type = number
+}
+
+
+
 variable "ecr_repository_email_service" {
     type = string
 }

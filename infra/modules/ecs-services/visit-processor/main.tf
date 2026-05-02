@@ -77,10 +77,10 @@ resource "aws_ecs_task_definition" "qida_visit_processor_ecs_td" {
         name = "SNS_TOPIC_EMAILS_ARN",
         value = var.sns_topic_emails_arn
       },
-      #{ 
-      #  name = "DJANGO_API_URL",
-      #  value = var.django_api_url 
-      #}
+      { 
+        name = "DJANGO_API_URL",
+        value = var.django_api_url 
+      }
     ]
     
     logConfiguration = {
@@ -99,7 +99,7 @@ resource "aws_ecs_service" "visit_processor" {
   name            = "visit-processor"
   cluster         = var.ecs_cluster_id
   task_definition = aws_ecs_task_definition.qida_visit_processor_ecs_td.arn
-  desired_count   = 1
+  desired_count   = var.visit_processor_min_replicas
   launch_type     = "FARGATE"
 
   network_configuration {
@@ -118,8 +118,8 @@ resource "aws_cloudwatch_log_group" "ecs_visit_processor_lg" {
 }
 
 resource "aws_appautoscaling_target" "ecs_visit_processor" {
-  max_capacity       = 4
-  min_capacity       = 1
+  max_capacity       = var.visit_processor_max_replicas
+  min_capacity       = var.visit_processor_max_replicas
   resource_id        = "service/${var.ecs_cluster_name}/email-service"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"

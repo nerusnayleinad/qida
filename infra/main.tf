@@ -104,6 +104,11 @@ module "ecs-service-vp" {
   
   ecs_cluster_id = module.ecs-cluster.ecs_cluster_id
   ecs_cluster_name = module.ecs-cluster.ecs_cluster_name
+  visit_processor_fargate_cpu_request = var.visit_processor_fargate_cpu_request
+  visit_processor_fargate_memory_request = var.visit_processor_fargate_memory_request
+  visit_processor_min_replicas = var.visit_processor_min_replicas
+  visit_processor_max_replicas = var.visit_processor_max_replicas
+  django_api_url = var.django_api_url
   
   ecr_repository_visit_processor = module.ecr.ecr_repository_visit_processor
   ecr_visit_processor_image = var.ecr_visit_processor_image
@@ -130,6 +135,10 @@ module "ecs-service-es" {
   
   ecs_cluster_id = module.ecs-cluster.ecs_cluster_id
   ecs_cluster_name = module.ecs-cluster.ecs_cluster_name
+  email_service_fargate_cpu_request = var.email_service_fargate_cpu_request
+  email_service_fargate_memory_request = var.email_service_fargate_memory_request
+  email_service_min_replicas = var.email_service_min_replicas
+  email_service_max_replicas = var.email_service_max_replicas
   
   ecr_repository_email_service = module.ecr.ecr_repository_email_service
   ecr_email_service_image = var.ecr_email_service_image
